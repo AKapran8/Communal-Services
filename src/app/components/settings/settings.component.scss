@@ -1,0 +1,29 @@
+.block {
+  display: flex;
+  gap: 40px;
+  margin-top: 20px;
+}
+.settings-nav {
+  margin-top: 50px;
+
+  &-item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    .mat-icon {
+      font-size: 20px;
+    }
+  }
+}
+
+.settings-body {
+  flex: 1 1 auto;
+}
+
+.active {
+  color: #0000ff;
+}
+
+.disabled-color {
+  color: #ebebe4;
+}

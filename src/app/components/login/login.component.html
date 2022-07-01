@@ -1,0 +1,35 @@
+<div class="container">
+  <h2 class="title">Увійти</h2>
+  <form [formGroup]="loginUser" class="form">
+    <mat-form-field>
+      <input
+        matInput
+        type="email"
+        placeholder="Почта"
+        formControlName="email"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        [type]="isShowPassword ? 'text' : 'password'"
+        placeholder="Пароль"
+        formControlName="password"
+      />
+      <mat-icon class="show-pass" (click)="onShoworHidePassword()"
+        >remove_red_eye</mat-icon
+      >
+    </mat-form-field>
+    <button
+      [disabled]="!loginUser.valid || isSaving"
+      mat-raised-button
+      type="submit"
+      (click)="onLogin()"
+      color="primary"
+    >
+      Увійти
+    </button>
+  </form>
+  <p class="footer-text">Вперше на сайті? <a routerLink="/register">Зареєструватися</a></p>
+  <p class="error-text">{{ errorMessage ? errorMessage : "" }}</p>
+</div>

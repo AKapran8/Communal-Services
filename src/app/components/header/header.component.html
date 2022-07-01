@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="header-row">
+    <a>
+      <img
+        class="header-row__logo"
+        src="./../../../assets/img/logo.png"
+        alt="Logo"
+      />
+    </a>
+    <div *ngIf="userName && lastName">
+      <h2>Вітаю, {{ userName }} {{ lastName }}</h2>
+      <button class="exit-btn" (click)="closeAccount()">Вийти з акаунту</button>
+    </div>
+  </div>
+</div>
+

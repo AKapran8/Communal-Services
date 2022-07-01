@@ -1,0 +1,52 @@
+<div class="block">
+  <table
+    mat-table
+    *ngIf="displayedData.length > 0"
+    [dataSource]="displayedData"
+    class="mat-elevation-z8"
+  >
+    <ng-container matColumnDef="index">
+      <th mat-header-cell *matHeaderCellDef>№</th>
+      <td mat-cell *matCellDef="let element; let i = index">{{ element.i }}</td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Назва платежу</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.name }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="cost">
+      <th mat-header-cell *matHeaderCellDef>Вартість за одиницю</th>
+      <td
+        mat-cell
+        *matCellDef="let element; let i = index"
+        style="display: flex"
+      >
+        <input
+          matInput
+          min="0"
+          type="number"
+          [value]="element.cost"
+          (input)="costChanges($event, element, i)"
+        />
+        <span>грн.</span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+  </table>
+  <div *ngIf="displayedData.length < 1">На жаль у вас немає послуг.</div>
+
+  <div class="block-action">
+    <div class="block-action__body">
+      <button mat-button (click)="openDialog()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+      <span> Додати нову послугу </span>
+    </div>
+  </div>
+  <button mat-button (click)="saveValues()" mat-raised-button color="primary">
+    Зберегти зміни
+  </button>
+</div>

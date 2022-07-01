@@ -1,0 +1,42 @@
+<div class="block">
+  <form [formGroup]="userForm" class="form">
+    <mat-form-field>
+      <input matInput placeholder="Прізвище" formControlName="lastName" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Ім'я" formControlName="firstName" />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="email"
+        placeholder="Електронна почта"
+        formControlName="email"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Логін" formControlName="login" />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        [type]="isShowPassword ? 'text' : 'password'"
+        placeholder="Пароль"
+        formControlName="password"
+      />
+      <mat-icon class="show-pass" (click)="onShoworHidePassword()"
+        >remove_red_eye</mat-icon
+      >
+    </mat-form-field>
+    <p *ngIf="errorMessage" class="error-text">{{ errorMessage }}</p>
+  </form>
+  <button
+    [disabled]="!userForm.valid"
+    mat-raised-button
+    type="submit"
+    (click)="save()"
+    color="primary"
+  >
+    Зберегти зміни
+  </button>
+</div>

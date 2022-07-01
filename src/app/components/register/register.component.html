@@ -1,0 +1,80 @@
+<div class="container" *ngIf="isCreateUser">
+  <h2 class="title">Будь ласка вкажіть дані для вашого акаунту</h2>
+  <form [formGroup]="createUserForm" class="form">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        placeholder="Введіть ваше ім'я"
+        formControlName="firstName"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        placeholder="Введіть ваше прізвище"
+        formControlName="secondName"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="email"
+        placeholder="Введіть вашу електронну почту"
+        formControlName="email"
+      />
+    </mat-form-field>
+  </form>
+  <div class="action-next">
+    <button
+      [disabled]="!createUserForm.valid || isSaving"
+      mat-raised-button
+      color="primary"
+      (click)="onCreateUser()"
+    >
+      Підтвердити
+    </button>
+    <div class="spacer"></div>
+  </div>
+  <p class="error-text">{{ errorMessage ? errorMessage : "" }}</p>
+</div>
+<div class="container" *ngIf="!isCreateUser">
+  <h2 class="title">Реєстрація</h2>
+  <form [formGroup]="registerUserForm" class="form">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        placeholder="Придумайте логін для вашого користувача"
+        formControlName="login"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="password"
+        placeholder="Придумайте та введіть пароль"
+        formControlName="password"
+      />
+    </mat-form-field>
+  </form>
+  <div class="action-next">
+    <button
+      [disabled]="!registerUserForm.valid || isSaving"
+      mat-raised-button
+      color="primary"
+      (click)="onRegisterUser()"
+    >
+      Підтвердити
+    </button>
+    <div class="spacer"></div>
+  </div>
+  <div class="action-back">
+    <div class="spacer"></div>
+    <button mat-raised-button color="primary" >
+      <span routerLink="/"> Назад </span>
+    </button>
+  </div>
+  <p class="error-text">{{ errorMessage ? errorMessage : "" }}</p>
+</div>

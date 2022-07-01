@@ -1,0 +1,32 @@
+<div class="block">
+  <div class="settings-nav">
+    <h3
+      class="settings-nav-item"
+      [ngClass]="{
+        'disabled-color': isOpenModal,
+        active: !isSettingsPayment
+      }"
+      (click)="navigate(false)"
+    >
+      Аккаунт
+    </h3>
+    <h3
+      class="settings-nav-item"
+      [ngClass]="{
+        active: isSettingsPayment,
+        'disabled-color': isOpenModal || !isAdmin
+      }"
+      (click)="isAdmin ? navigate(true) : ''"
+    >
+      Послуги
+      <mat-icon>{{ isAdmin ? "lock_open" : "lock" }}</mat-icon>
+    </h3>
+  </div>
+  <div class="settings-body">
+    <app-settings-account *ngIf="!isSettingsPayment"></app-settings-account>
+    <app-settings-services
+      (isOpenDilog)="isOpenDialogHandler($event)"
+      *ngIf="isSettingsPayment && isAdmin"
+    ></app-settings-services>
+  </div>
+</div>

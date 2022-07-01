@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Створення платіжки</h2>
+<mat-dialog-content>
+  <div class="block">
+    <form [formGroup]='paymentForm' class="form">
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          placeholder="Введіть назву нової платіжки"
+          formControlName="name"
+        />
+      </mat-form-field>
+      <mat-hint *ngIf="errorMessage" class="error-text">
+        {{errorMessage}}
+      </mat-hint>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="action action-add">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!paymentForm.valid"
+      (click)="onSavePayment()"
+    >
+      Підтвердити
+    </button>
+  </div>
+  <div class="action action-back">
+    <button mat-raised-button color="primary" mat-dialog-close>Скасувати</button>
+  </div>
+</mat-dialog-actions>

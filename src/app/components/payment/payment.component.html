@@ -1,0 +1,137 @@
+<div class="container" *ngIf="!isEditPayment">
+  <div class="block">
+    <div class="content">
+      <table
+        mat-table
+        *ngIf="displayedData.length > 0"
+        [dataSource]="displayedData"
+        class="mat-elevation-z8"
+      >
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef>№</th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            {{ i + 1 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            style="cursor: pointer"
+            (click)="onChoosePayment(i, element)"
+          >
+            {{ element.name }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="cost">
+          <th mat-header-cell *matHeaderCellDef>Загальна вартість</th>
+          <td mat-cell *matCellDef="let element">{{ element.cost }} грн.</td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Дата створення</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.date }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      </table>
+      <div *ngIf="displayedData.length < 1">На жаль у вас немає платіжок.</div>
+    </div>
+    <div class="action">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        (click)="openDialog()"
+      >
+        Нова платіжка
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container create-payment" *ngIf="isEditPayment">
+  <h2>{{ choosedPayment.name }}</h2>
+  <div class="col" *ngIf="payments.length > 0">
+    <div class="row" *ngFor="let item of payments; let i = index">
+      <mat-icon (click)="removeRow(i)" *ngIf="payments.length > 1 && !item.isDone"
+        >remove_circle</mat-icon
+      >
+      <div class="row-item">
+        <mat-select
+          [placeholder]="item.name ? item.name : 'Показник'"
+          (selectionChange)="changeValue('name', i, $event)"
+          required
+          [disabled]="payments[0]?.isDone"
+        >
+          <mat-option *ngFor="let item of services" [value]="item">
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+        <input
+          type="number"
+          matInput
+          placeholder="Попередній"
+          min="0"
+          [value]="item.beforeValue ? item.beforeValue : 0"
+          (input)="changeValue('beforeValue', i, $event.target)"
+          [disabled]="payments[0]?.isDone"
+          required
+        />
+        <input
+          type="number"
+          matInput
+          placeholder="Теперешній"
+          min="0"
+          [value]="item.afterValue ? item.afterValue : 0"
+          (input)="changeValue('afterValue', i, $event.target)"
+          [disabled]="payments[0]?.isDone"
+          required
+        />
+      </div>
+    </div>
+  </div>
+  <div *ngIf="payments.length < 1">Немає показників. Будь ласка додайте</div>
+  <mat-icon (click)="onAddRow()" *ngIf="!payments[0]?.isDone">add_circle</mat-icon>
+
+  <div class="fin-action">
+    <button
+      class="calculate-btn"
+      mat-raised-button
+      color="primary"
+      type="submit"
+      (click)="calculatePayment()"
+      [disabled]="payments[0]?.isDone"
+    >
+      Підрахувати
+    </button>
+  </div>
+
+  <div class="bottom-section" *ngIf="payments[0]?.isDone">
+    <table
+    mat-table
+    [dataSource]="payments"
+    class="mat-elevation-z8"
+    >
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Послуга</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="totalPay">
+      <th mat-header-cell *matHeaderCellDef>вартість</th>
+      <td mat-cell *matCellDef="let element">{{ element.count * element.cost }}</td>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Дата</th>
+      <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="readyPaymentDataColumn"></tr>
+    <tr mat-row *matRowDef="let row; columns: readyPaymentDataColumn"></tr>
+  </table>
+  <h1  class='total'>Загальна вартість {{totalPay}}</h1>
+</div>
+</div>
